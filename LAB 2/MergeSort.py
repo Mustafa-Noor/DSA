@@ -1,4 +1,4 @@
-from problem1 import RandomArray
+from funcs import RandomArray
 import time
 
 def MergeSort(array, start, end):
@@ -9,7 +9,6 @@ def MergeSort(array, start, end):
         MergeSort(array, start, mid)
         MergeSort(array, mid + 1, end)
         Merge(array, start, mid, end)
-        return array
 
 def Merge(array, p, q, r):
     leftArray = array[p:q + 1]
@@ -17,41 +16,54 @@ def Merge(array, p, q, r):
 
     i = 0
     j = 0
-    k = p
+    mergedIndex = p
 
     # Merge the two arrays
     while i < len(leftArray) and j < len(rightArray):
-        if leftArray[i] <= rightArray[j]:  # Fixed to maintain stability
-            array[k] = leftArray[i]
+        if leftArray[i] <= rightArray[j]:  
+            array[mergedIndex] = leftArray[i]
             i += 1
         else:
-            array[k] = rightArray[j]
+            array[mergedIndex] = rightArray[j]
             j += 1
-        k += 1
+        mergedIndex += 1
 
     # Copy the remaining elements of leftArray, if any
     while i < len(leftArray):
-        array[k] = leftArray[i]
+        array[mergedIndex] = leftArray[i]
         i += 1
-        k += 1
+        mergedIndex += 1
 
     # Copy the remaining elements of rightArray, if any
     while j < len(rightArray):
-        array[k] = rightArray[j]
+        array[mergedIndex] = rightArray[j]
         j += 1
-        k += 1
+        mergedIndex += 1
 
+# -----------------------------------------------------
+# Driver code
 
-myArray = RandomArray(30000)
+n = 30000 # size of the array
+
+# creates a random array
+myArray = RandomArray(n) 
+lastIndex = len(myArray) - 1
+
+# this notes time
 start_time = time.time()
-sortedArr = MergeSort(myArray, 0, 30000)
+MergeSort(myArray, 0, lastIndex) # sort  
 end_time = time.time()
-runtime = end_time - start_time
-print(sortedArr)
 
+# calculation of runtime
+runtime = end_time - start_time 
 
+# printing of the runtime
 print("Runtime for Merge Sort is :  ", runtime, "seconds")
 
+
+# this is for writing sorted array in csv file
 f = open("SortedMergeSort.csv", mode="w")
-for i in sortedArr:
+for i in myArray:
     f.write(str(i) + "\n")
+
+    

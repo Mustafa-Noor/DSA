@@ -1,6 +1,7 @@
-from problem1 import RandomArray
+from funcs import RandomArray
 import time
-n = 10
+
+n = 16
 def HybridMergeSort(array, start, end):
     if(end-start + 1) <= n:
         InsertionSort(array, start, end)
@@ -18,29 +19,29 @@ def Merge(array, p, q, r):
 
     i = 0
     j = 0
-    k = p
+    mergedIndex = p
 
     # Merge the two arrays
     while i < len(leftArray) and j < len(rightArray):
-        if leftArray[i] <= rightArray[j]:  # Fixed to maintain stability
-            array[k] = leftArray[i]
+        if leftArray[i] <= rightArray[j]:  
+            array[mergedIndex] = leftArray[i]
             i += 1
         else:
-            array[k] = rightArray[j]
+            array[mergedIndex] = rightArray[j]
             j += 1
-        k += 1
+        mergedIndex += 1
 
     # Copy the remaining elements of leftArray, if any
     while i < len(leftArray):
-        array[k] = leftArray[i]
+        array[mergedIndex] = leftArray[i]
         i += 1
-        k += 1
+        mergedIndex += 1
 
     # Copy the remaining elements of rightArray, if any
     while j < len(rightArray):
-        array[k] = rightArray[j]
+        array[mergedIndex] = rightArray[j]
         j += 1
-        k += 1
+        mergedIndex += 1
 
 
 def InsertionSort(array, start, end):
@@ -53,11 +54,28 @@ def InsertionSort(array, start, end):
         array[j+1] = key
     
 
+# -----------------------------------------------------
+# Driver code
 
-myArray = RandomArray(11)
+size = 30000 # size of the array
+
+# creates a random array
+myArray = RandomArray(size) 
+lastIndex = len(myArray) - 1
+
+# this notes time
 start_time = time.time()
-print(myArray)
-HybridMergeSort(myArray, 0, 10)
+HybridMergeSort(myArray, 0, lastIndex) # sort  
 end_time = time.time()
-runtime = end_time - start_time
-print(myArray)
+
+# calculation of runtime
+runtime = end_time - start_time 
+
+# printing of the runtime
+print("Runtime for Hybrid Merge Sort is :  ", runtime, "seconds")
+
+
+# this is for writing sorted array in csv file
+f = open("SortedHybridSort.csv", mode="w")
+for i in myArray:
+    f.write(str(i) + "\n")
